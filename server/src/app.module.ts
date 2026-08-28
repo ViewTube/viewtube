@@ -12,6 +12,7 @@ import { CaptchaModule } from './auth/captcha/captcha.module';
 import { RegisterModule } from './auth/register/register.module';
 import { CacheConfigService } from './cache-config.service';
 import { ApiExceptionFilter } from './common/filters/api-exception.filter';
+import { PoTokenModule } from './common/potoken/potoken.module';
 import { AutocompleteModule } from './core/autocomplete/autocomplete.module';
 import { ChannelsModule } from './core/channels/channels.module';
 import { CommentsModule } from './core/comments/comments.module';
@@ -78,6 +79,7 @@ const moduleMetadata: ModuleMetadata = {
       inject: [ConfigService]
     }),
     ScheduleModule.forRoot(),
+    PoTokenModule,
     AuthModule,
     CoreModule,
     UserModule,

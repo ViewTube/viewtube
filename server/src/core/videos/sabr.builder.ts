@@ -20,7 +20,8 @@ const logger = new Logger('SabrBuilder');
  */
 export const buildSabrBlock = async (
   videoInfo: VideoInfo,
-  client: Innertube
+  client: Innertube,
+  contentPoToken?: string | null
 ): Promise<VTSabrDto | null> => {
   const streamingData = videoInfo.streaming_data;
   const rawStreamingUrl = streamingData?.server_abr_streaming_url;
@@ -57,7 +58,9 @@ export const buildSabrBlock = async (
     streamingUrl,
     dashManifest,
     ustreamerConfig,
-    poToken: client.session.po_token,
+    // The token bound to *this* video, not the client's session token: the SABR body is
+    // checked against the same binding the player request carried.
+    poToken: contentPoToken ?? client.session.po_token,
     formats: (streamingData.adaptive_formats ?? []).map(toSabrFormat),
     clientInfo: {
       clientName: Number(Constants.CLIENT_NAME_IDS[client.session.client_name]),

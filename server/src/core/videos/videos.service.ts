@@ -11,6 +11,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { BlockedVideo } from 'server/admin/schemas/blocked-video';
 import { innertubeClient } from 'server/common/innertube/innertube';
+import { PoTokenService } from 'server/common/potoken/potoken.service';
 import { vtFetch } from 'server/common/vtFetch';
 import { DislikeDto } from 'server/core/videos/dto/dislike.dto';
 import { toVTVideoInfoDto } from 'server/mapper/converter/video-info/vt-video-info.converter';
@@ -45,7 +46,8 @@ export class VideosService {
     @InjectModel(BlockedVideo.name)
     private readonly blockedVideoModel: Model<BlockedVideo>,
     @InjectModel(VideoBasicInfo.name)
-    private readonly VideoBasicInfoModel: Model<VideoBasicInfo>
+    private readonly VideoBasicInfoModel: Model<VideoBasicInfo>,
+    private readonly poTokenService: PoTokenService
   ) {}
 
   private returnYoutubeDislikeUrl = 'https://returnyoutubedislikeapi.com';
@@ -94,9 +96,17 @@ export class VideosService {
     let videoInfo: Awaited<ReturnType<Innertube['getInfo']>>;
     let client: Innertube;
 
+    // Minted before the player request rather than only for the SABR block: the player
+    // response is part of the session YouTube scores, so a token that appears for the first
+    // time on a segment request is a token bound to a session it never saw.
+    const contentPoToken = await this.poTokenService.mintContentToken(id);
+
     try {
       client = await innertubeClient();
-      videoInfo = await client.getInfo(id);
+      videoInfo = await client.getInfo(
+        id,
+        contentPoToken ? { po_token: contentPoToken } : undefined
+      );
     } catch (error) {
       if (isVideoGone(error)) videoNotFound();
       videoUpstreamFailed('information', error);
@@ -110,7 +120,7 @@ export class VideosService {
     // Live has neither a manifest nor usable formats — see SABR_PLAN.md phase 7.
     if (!videoInfo.basic_info.is_live) {
       try {
-        sabr = await buildSabrBlock(videoInfo, client);
+        sabr = await buildSabrBlock(videoInfo, client, contentPoToken);
       } catch {
         // Fall through to the legacy DASH path below.
       }

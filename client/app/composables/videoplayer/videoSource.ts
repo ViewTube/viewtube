@@ -19,6 +19,7 @@ const buildSabrSource = (sabr: SabrBlock, videoPlaybackProxy: string): PlayerSou
     streamingUrl: rewriteSabrHost(sabr.streamingUrl, videoPlaybackProxy),
     formats: sabr.formats,
     ustreamerConfig: sabr.ustreamerConfig,
+    poToken: sabr.poToken ?? undefined,
     clientInfo: sabr.clientInfo
   }
 });

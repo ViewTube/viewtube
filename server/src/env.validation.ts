@@ -24,6 +24,8 @@ export const validationSchema = Joi.object({
   // These are not required for ViewTube to run
   VIEWTUBE_CORS_ORIGIN: Joi.string().optional(),
   VIEWTUBE_YOUTUBE_COOKIE: Joi.string().optional(),
+  VIEWTUBE_POTOKEN_ENABLED: Joi.boolean().default(true),
   VIEWTUBE_PO_TOKEN: Joi.string().optional(),
-  VIEWTUBE_VISITOR_DATA: Joi.string().optional()
+  VIEWTUBE_VISITOR_DATA: Joi.string().optional(),
+  VIEWTUBE_PROXY_URL: Joi.string().uri().optional()
 });

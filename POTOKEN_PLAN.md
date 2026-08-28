@@ -1,5 +1,14 @@
 # PO token implementation plan
 
+> [!NOTE]
+> **Implemented 2026-08-27 (phases 1–6).** ViewTube now attests with BotGuard in a worker
+> thread and mints a per-video PO token, server-side. What it does _not_ do is fix the
+> attestation gate that stops some videos about a minute in — that was measured before
+> building, and re-measured after: `is8UDe2PhKQ` still reports
+> `STREAM_PROTECTION_STATUS: 2` and still stops at 63.6s with a correctly minted,
+> correctly bound token in every request. This shipped as hardening for the checks YouTube
+> _does_ apply to tokens, not as a fix for that wall. See "What was measured" below.
+
 > [!IMPORTANT]
 > **Read this before the phase 0 section below, which draws a conclusion that is too
 > strong.** Phase 0 established that the 403 was two bugs in our own code, not attestation
@@ -372,6 +381,35 @@ the start: thread the egress profile through the session, the minter and the pla
 as a **parameter**, never as a module-level global read from env. Made now it is a naming
 decision; retrofitted later it touches every layer.
 
+## What was measured before building (2026-08-27)
+
+Six token configurations against a gated video (`is8UDe2PhKQ`, `Nz9b0oJw69I`), using
+`scripts/sabr-probe` `npm run download` — googlevideo's own node downloader, which shares
+no code with our adapter. A pass would be `STREAM_PROTECTION_STATUS` moving from 2 to 1.
+
+| token in the SABR body                              | on the player request | result          |
+| --------------------------------------------------- | --------------------- | --------------- |
+| none                                                | none                  | status 2 → wall |
+| BotGuard via jsdom, session-bound                   | same                  | status 2 → wall |
+| BotGuard via jsdom, content-bound                   | same                  | status 2 → wall |
+| the browser's 10-byte cold-start token              | none                  | status 2 → wall |
+| the browser's real ~95-byte token + its visitorData | none                  | status 2 → wall |
+| the browser's real ~95-byte token + its visitorData | the same token        | status 2 → wall |
+
+The last two matter most: `npm run trace`'s companion `token-timeline.mjs` showed that a
+real Chrome sends a 10-byte placeholder for the first ~16 seconds and then switches to a
+real ~95-byte BotGuard token. Replaying _that_ token, together with the `visitorData` it
+was bound to so the session stays coherent, still does not move the status. So the token is
+not what separates us from Chrome on these videos, and no minter — however good — fixes the
+wall on its own.
+
+**Every row above shares one flaw**: each token was minted somewhere BotGuard detects —
+jsdom for the minted ones, a puppeteer-driven Chrome for the "real browser" ones. A
+human-driven incognito Chrome plays the same videos in full, so the table shows that _these_
+tokens do not pass, not that tokens do not matter. Re-run it only with a token from a
+browser that is not being automated; that is the experiment that would move
+`STREAM_PROTECTION_STATUS` from 2 to 1. See the corrected section in `SABR_PLAN.md`.
+
 ## Phase 0 — falsify the hypothesis before building anything
 
 **Do this first and do not skip it.** The entire plan rests on one unproven assumption:
@@ -407,7 +445,7 @@ none do, stop and reassess — the remaining suspects would be the `WEB` client 
 itself (the guide notes `tv_simply` and `mweb` as alternatives) or cookie-backed session
 state, not more token plumbing.
 
-## Phase 1 — the token worker
+## Phase 1 (done) — the token worker
 
 **New:** `server/src/common/potoken/potoken.worker.ts`
 
@@ -461,7 +499,7 @@ Notes:
 - `HTMLCanvasElement.prototype.getContext` will log a jsdom "Not implemented" error. It is
   expected and harmless; log a one-line note next to it so nobody files it as a bug.
 
-## Phase 2 — `PoTokenService`
+## Phase 2 (done) — `PoTokenService`
 
 **New:** `server/src/common/potoken/potoken.service.ts` (+ module, exported globally like
 the innertube helper).
@@ -503,7 +541,7 @@ Config, in `env.validation.ts`:
 The manual-override path stays because it is how the `youtube-trusted-session-generator`
 workflow and the e2e stack can pin a known-good pair.
 
-## Phase 3 — wire the session token into the Innertube client
+## Phase 3 (done) — wire the session token into the Innertube client
 
 `server/src/common/innertube/innertube.ts`:
 
@@ -517,7 +555,7 @@ workflow and the e2e stack can pin a known-good pair.
 Verification for this phase is deliberately not about playback: confirm homepage, search,
 channels and comments still work. A bad token here degrades everything, not just video.
 
-## Phase 4 — content token in the player request and the SABR block
+## Phase 4 (done) — content token in the player request and the SABR block
 
 `server/src/core/videos/videos.service.ts`:
 
@@ -544,17 +582,17 @@ integrity token's. Including `<generation>` is what makes rotation safe.
 but re-run `pnpm --filter=./server run gen:api` anyway and confirm the diff is empty.
 Remember to stop `pnpm serve:server` first (see CLAUDE.md on `metadata.ts`).
 
-## Phase 5 — client: feed the token to the SABR adapter
+## Phase 5 (done) — client: feed the token to the SABR adapter
 
-`client/app/utils/videoplayer/adapters/sabrAdapter.ts` currently carries:
+The old `// No onMintPoToken` comment in
+`client/app/utils/videoplayer/adapters/sabrAdapter.ts` is gone.
 
-```ts
-// No onMintPoToken: the SABR endpoint does not validate the token on this path
-```
-
-That comment was written on the strength of an isolation test that compared _no token_
-against _the stale hardcoded token_ — two ways of sending an invalid token, which is why
-they looked equivalent. It is wrong and must go.
+One detail worth keeping: the callback is registered **only when the server actually
+produced a token**. googlevideo does `base64ToU8(await cb())` unconditionally once a
+callback exists, so a callback returning `''` puts a zero-length token in the request body
+— a malformed token rather than no token, which is the worse of the two to send. The token
+is also read through a mutable holder rather than captured, so a session reload swaps it
+instead of re-sending the token of the session that was just replaced.
 
 ```ts
 if (source.poToken) {
@@ -571,7 +609,7 @@ should re-request the video info to obtain a fresh content token rather than reu
 one captured at load time. Keep this as the last step of the phase — it only matters for
 sessions longer than the integrity token TTL.
 
-## Phase 6 — hardening
+## Phase 6 (done) — hardening
 
 - Metrics/log lines for: attestation success/failure, time to first token, rotation events,
   mint failures. Invidious's experience is that this fails silently and periodically; the

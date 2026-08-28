@@ -18,8 +18,10 @@ import { version } from '../../package.json';
 import { AdminService } from './admin/admin.service';
 import { AppClusterService } from './app-cluster.service';
 import { AppModule } from './app.module';
+import { useTokenSession } from './common/innertube/innertube';
 import { logger } from './common/logger';
 import { ModuleType } from './common/module.type';
+import { PoTokenService } from './common/potoken/potoken.service';
 import { checkRedisConnection } from './common/redis.connection';
 import { registerFastifyPlugin } from './common/registerFastifyPlugin';
 import metadata from './metadata';
@@ -55,6 +57,10 @@ const bootstrap = async () => {
     { parseAs: 'buffer', bodyLimit: 10 * 1024 * 1024 },
     rawBodyParser
   );
+
+  // Handed to the innertube helper rather than injected: `innertubeClient()` is a plain
+  // function called from services, schedulers and boot code alike, so it has no DI scope.
+  useTokenSession(app.get(PoTokenService));
 
   const configService = app.get(ConfigService);
   const adminService = app.get(AdminService);

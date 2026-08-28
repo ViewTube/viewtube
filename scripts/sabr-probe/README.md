@@ -20,6 +20,9 @@ npm run wall       # like trace, but decodes the server's directives instead of 
 npm run download   # googlevideo's own downloader: how far into a video does YouTube serve?
 npm run login      # is "sign in to confirm you're not a bot" a po_token problem? (it is not)
 npm run clients    # which innertube client still gets a playable player response?
+npm run timeline   # what po_token does a real browser send, and when does it change?
+npm run resume     # does a fresh session/token let a cut-off video continue? (it does not)
+npm run realchrome # attach to a plainly-launched Chromium; does it pass BotGuard?
 ```
 
 `trace` is the one to reach for when playback misbehaves rather than fails outright: it is
@@ -51,6 +54,57 @@ attestation and will stop serving about a minute in whatever the client does. `-
 session|content` mints a BotGuard token and `--po-token <b64>` replays a literal one
 (`capture` prints the browser's), which is how "a PO token does not lift it" in
 `SABR_PLAN.md` was measured. Needs no dev server.
+
+`timeline` is the **browser control**, and it is the first thing to run when a video
+misbehaves mid-playback — before touching adapter code. It plays the video on youtube.com in
+a real Chrome and reports how far into the _feature_ (not the pre-roll ad) it actually got.
+If Chrome stops too, there is no ViewTube bug to find: on 2026-08-28 it reached 42.6s of a
+153s video and then showed YouTube's own "Something went wrong", which is what overturned a
+day-old "attestation gate" diagnosis. `--consent accept|reject` picks the cookie choice;
+both were measured and they make no difference.
+
+> Two traps this probe has already fallen into, both of which produce confident-looking
+> nonsense rather than an error: YouTube's consent buttons live inside Polymer **shadow
+> roots**, so a `document.querySelectorAll('button')` sweep silently dismisses nothing and
+> every subsequent reading is of a blocked page; and a **pre-roll ad** runs on the same
+> `<video>` element as the feature, so a single `currentTime` reading at the end can be
+> measuring a 15-second ad. The probe now pierces shadow roots, clears ads, and reports the
+> feature duration alongside the position so both failures are visible in the output.
+
+`timeline` also settled the PO token question. A real Chrome sends a 10-byte cold-start
+placeholder for the first ~16 seconds of playback and then switches to a real ~95-byte
+BotGuard token; it prints both, plus the `visitorData` they are bound to, so the pair can be
+replayed coherently through `download --po-token <t> --visitor-data <v>`. Doing that still
+hits the same wall, which is how "the token is not what separates us from Chrome" was
+established rather than assumed. See `POTOKEN_PLAN.md`.
+
+`resume` answers the obvious follow-up to a video being cut off partway: _would getting a
+new token mid-playback let it continue?_ It downloads until the stream dies, then builds a
+completely independent session — new Innertube, new player request, new streaming URL and
+ustreamer config, newly minted token — and tries again from there. On 2026-08-28 both
+sessions stopped at exactly 63.6s having received byte-identical amounts, so the cut-off is
+anchored to the position in the video, not to the age of the session. That is what rules
+out wiring the wall into `sabrAdapter`'s existing `reloadSession` path as a fix.
+
+`realchrome` is the open experiment. Unlike every other browser probe here it does **not**
+launch Chromium through puppeteer — it attaches over CDP to one started as an ordinary
+process, in an explicitly incognito context, because a human-driven incognito Chrome plays
+videos that a puppeteer-launched one gets cut off on. Start the browser yourself first:
+
+```bash
+chromium --incognito --remote-debugging-port=9222 --user-data-dir=/tmp/vt-chrome-profile \
+  --no-first-run --no-default-browser-check --mute-audio --autoplay-policy=no-user-gesture-required
+npm run realchrome -- --video <id> --seconds 150
+```
+
+It prints how far into the feature it got plus the PO token and `visitorData` the page
+minted, so a pass can be confirmed with `download --po-token <t> --visitor-data <v>`. As of
+2026-08-28 it has no result yet — the run was cut short by the address being rate-limited.
+
+> **These probes burn IP reputation.** Several consecutive runs are enough to get an address
+> answering `LOGIN_REQUIRED` for most videos, at which point nothing downstream can be
+> measured and every result looks like a playback bug. `clients` is the quickest way to tell
+> a blocked address from a real finding — check it before trusting a bad run.
 
 `login` and `clients` are for the other kind of refusal: `getInfo` answering
 `LOGIN_REQUIRED` or `UNPLAYABLE` with no streaming data at all, which is upstream of

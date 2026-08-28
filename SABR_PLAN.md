@@ -1,9 +1,11 @@
 # SABR player implementation plan
 
-**Status (2026-08-27).** VOD plays through SABR; phases 1–4 and 6 have landed. Two things
-are open, both YouTube-side rather than ours: videos YouTube flags for attestation stop
-after about a minute (see the attestation-gate section — this is the former "readahead
-wall", and it is not a bug in our request), and live has no manifest to play (phase 7).
+**Status (2026-08-28).** VOD plays through SABR; phases 1–5 have landed (5 as hardening —
+see `POTOKEN_PLAN.md`) and 6 is done bar multi-language audio. Two things are open, both
+YouTube-side rather than ours: some videos are restricted on some egress addresses and stop
+partway or are refused outright — **a normal browser fails on them identically from the
+same network**, so there is nothing in the player to fix (see the section below) — and live
+has no manifest to play (phase 7).
 
 ## Background
 
@@ -261,7 +263,109 @@ videos a minute in; that was diagnosed later, see the attestation-gate section b
 After these: `is8UDe2PhKQ`, `Nz9b0oJw69I` and `dQw4w9WgXcQ` all play with **0 toasts**, a
 stable seven-entry quality list, and ABR climbing to 1080p.
 
-### Resolved: the "readahead wall" is YouTube's attestation gate (2026-08-27)
+### Resolved: the wall is BotGuard attestation, and automation is what fails it (2026-08-28)
+
+**This section was rewritten twice and the second version was also wrong. Read the whole
+thing before acting on any part of it.** The decisive control was run by hand, in an
+ordinary incognito Chrome window: it plays `is8UDe2PhKQ` end to end and seeks freely. So
+the video is fine, the network is fine, and something about _our_ client is not.
+
+The three results side by side, all on the same machine and network:
+
+| client                                   | reached on a 153s video |
+| ---------------------------------------- | ----------------------- |
+| real incognito Chrome, driven by a human | **the whole video**     |
+| Chrome driven by puppeteer               | 41s                     |
+| ViewTube / googlevideo's downloader      | 63.6s                   |
+
+That rules out the "restricted video" reading below, and it also explains why every PO
+token experiment came back negative: **the puppeteer-driven browser is itself detected**,
+so the "real browser token" replayed in those tests was minted in an environment BotGuard
+had already failed. jsdom minting fails for the same reason. What distinguishes the
+passing case is not _having_ a token but having one minted somewhere BotGuard trusts.
+
+So `STREAM_PROTECTION_STATUS: 2` means what it appears to mean — attestation wanted, and
+enforced about a minute in — and the PO token subsystem in `common/potoken/` is the right
+shape with the wrong minter. The open question is no longer "is it the token?" but "what
+minting environment does BotGuard accept?", which is a much better-posed problem.
+
+**Where this stands, and the next step.** `scripts/sabr-probe/real-chrome-probe.mjs`
+(`npm run realchrome`) exists to answer exactly that. It attaches over CDP to a Chromium
+started as an ordinary process — no `--enable-automation`, and an explicitly incognito
+context — rather than launching one through puppeteer, and reports both how far it gets and
+the PO token the page minted. Launch the browser first:
+
+```bash
+chromium --incognito --remote-debugging-port=9222 --user-data-dir=/tmp/vt-chrome-profile \
+  --no-first-run --no-default-browser-check --mute-audio --autoplay-policy=no-user-gesture-required
+npm run realchrome -- --video <a status-2 video> --seconds 150
+```
+
+It has not produced a result yet: the run was cut short when the address it was running
+from was rate-limited again, which is its own obstacle — these probes burn IP reputation
+fast, and a blocked address answers `LOGIN_REQUIRED` long before any of this can be
+measured. Read the outcome as:
+
+- **plays through** → the automation flags were the tell, an attached browser is a viable
+  minter, and rewriting the inside of `potoken.worker.ts` to mint that way is the fix. The
+  probe prints a token and `visitorData` to confirm with
+  `npm run download -- --po-token <t> --visitor-data <v>` before building anything.
+- **still stops around 41-63s** → CDP attachment is itself detected, no browser we can drive
+  will mint a trusted token, and the remaining options are a human-seeded persistent browser
+  or an external minting service.
+
+Two things remain true from the superseded reading and are worth keeping: a completely
+fresh session resumes to the same second (`npm run resume`), so this cannot be retried
+around in the player; and the _failure mode_ does vary by egress — some exits refuse these
+videos outright as `UNPLAYABLE` rather than cutting them off partway.
+
+### Superseded: "the video is restricted on this network" (2026-08-28)
+
+Kept because its measurements are sound and only its conclusion was wrong — it was drawn
+from a browser control that was itself being detected as automation.
+
+**Read this before the section below, which was written a day earlier and blames
+attestation.** The measurements in it are all real; the conclusion drawn from them was
+wrong, because it never included the one control that mattered — _does a normal browser
+play these videos from this network?_
+
+It does not. Chrome on youtube.com, same machine, same VPN exit, consent accepted:
+
+| video         | duration | Chrome reached                                   |
+| ------------- | -------- | ------------------------------------------------ |
+| `dQw4w9WgXcQ` | 213s     | **148.9s**, no stalls                            |
+| `is8UDe2PhKQ` | 153s     | **42.6s**, then YouTube's "Something went wrong" |
+
+ViewTube behaves the same way on both. Accepting versus rejecting cookies makes no
+difference (42.6s vs ~43s), so it is not a consent or third-party-cookie problem. From a
+US exit the same videos do not even reach playback: `getInfo` answers `UNPLAYABLE` with no
+SABR endpoint at all, while `dQw4w9WgXcQ` stays fine.
+
+So: **certain videos are restricted on certain egress addresses, and the client cannot do
+anything about it.** The failure mode varies by exit — cut off partway through on one,
+refused outright on another — which is why it looked like a mid-playback protocol bug from
+inside the player. There is no ViewTube defect here to fix, and no client change that
+would help; what changes the outcome is the address the request comes from.
+
+The player says so honestly rather than implying a bot check it could pass. The one thing
+still worth doing is _not_ re-deriving this from scratch next time: if a video stops
+partway, run the Chrome control (`npm run timeline -- --video <id> --consent accept`) and
+`npm run resume` before touching adapter code.
+
+**Refreshing the session does not help either.** The obvious fix — treat the cut-off like a
+reload request and swap in a new session, which `sabrAdapter.reloadSession` already knows
+how to do — was measured with `npm run resume`: a completely independent session (new player
+request, new streaming URL, new ustreamer config, freshly minted PO token) stops at exactly
+the same 63.6s having received a byte-identical amount. The wall is anchored to the position
+in the video, not to the age of the session or its token.
+
+An earlier note claimed a probe-worthy methodology trap and it is worth repeating here:
+`token-timeline`'s consent dismissal silently did nothing for its first few runs, because
+YouTube's consent buttons live inside Polymer **shadow roots** and
+`document.querySelectorAll('button')` does not pierce them. Every "the browser only reached
+0.9s" reading from that period was of a page blocked behind a dialog, not of playback.
+
+### Superseded: the attestation-gate reading (2026-08-27)
 
 Some videos stopped receiving media at a fixed point — `is8UDe2PhKQ` at 63.6s,
 `Nz9b0oJw69I` at 62.6s — while `dQw4w9WgXcQ` played to the end. The earlier reading of this

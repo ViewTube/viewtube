@@ -7,6 +7,11 @@ export interface SabrSource {
   streamingUrl: string;
   formats: Array<SabrFormatLike>;
   ustreamerConfig: string;
+  /**
+   * PO token bound to this video, minted server-side. Absent when attestation is
+   * unavailable or disabled, in which case requests go out without one.
+   */
+  poToken?: string;
   clientInfo: {
     clientName: number;
     clientVersion: string;

@@ -53,12 +53,46 @@ if (process.env.VIEWTUBE_VISITOR_DATA) {
 
 let innerTubeClient: Innertube | null = null;
 let clientCreatedAt: number | null = null;
+let clientGeneration = -1;
+
+/**
+ * Supplies the PO token session without importing Nest's DI into this module.
+ *
+ * `innertubeClient()` is a plain function called from services, schedulers and boot code
+ * alike, so it cannot inject `PoTokenService`. `main.ts` hands the getter in once the app
+ * is up instead; until then, and whenever attestation is unavailable, every caller simply
+ * gets a client with no token — which is how this worked before tokens existed.
+ */
+type SessionProvider = () => Promise<{ poToken: string; visitorData: string } | null>;
+type SessionSource = { getSession: SessionProvider; getGeneration: () => number };
+
+let sessionSource: SessionSource | null = null;
+
+export const useTokenSession = (source: SessionSource) => {
+  sessionSource = source;
+};
 
 export const innertubeClient = async () => {
+  const session = sessionSource ? await sessionSource.getSession() : null;
+  const generation = sessionSource?.getGeneration() ?? -1;
+
   const clientOutdated = clientCreatedAt ? Date.now() - clientCreatedAt > 600000 : true;
-  if (!innerTubeClient || clientOutdated) {
-    innerTubeClient = await Innertube.create(innertubeOptions);
+
+  // The generation check is what keeps the pair coherent. Recreating on the timer alone
+  // would rebuild the client from whatever session happened to be current, and a token
+  // minted for one `visitorData` sent alongside another is a worse signal to YouTube than
+  // sending neither.
+  if (!innerTubeClient || clientOutdated || generation !== clientGeneration) {
+    innerTubeClient = await Innertube.create({
+      ...innertubeOptions,
+      // Env overrides still win: they are how an operator pins a known-good pair.
+      ...(session && !process.env.VIEWTUBE_PO_TOKEN
+        ? { po_token: session.poToken, visitor_data: session.visitorData }
+        : {})
+    });
     clientCreatedAt = Date.now();
+    clientGeneration = generation;
   }
+
   return innerTubeClient;
 };

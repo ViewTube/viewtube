@@ -39,16 +39,20 @@ import { rewriteSabrHost } from '../proxy';
 export const SABR_NO_MEDIA = 'SABR response carried no media';
 
 /**
- * Marker for the one reason YouTube is known to stop serving media mid-video.
+ * Marker for YouTube cutting a video off partway through.
  *
  * `STREAM_PROTECTION_STATUS` is 1 for videos that play to the end and 2 from the very
- * first response for videos that stop after about a minute; once the grace period is up
- * the server answers with policies and no media, and reports 3 to a client that reads the
- * whole response. googlevideo's own node downloader hits the same second of the same
- * videos and calls it "attestation required", so this is YouTube declining the session,
- * not a defect in the request. A PO token does not currently lift it — see POTOKEN_PLAN.md.
+ * first response for videos that stop; once YouTube stops serving, the response carries
+ * policies and no media, and a client that reads the whole stream is told 3.
+ *
+ * The gate is BotGuard attestation, and what passes it is a token minted in an environment
+ * BotGuard trusts. A **real** signed-out Chrome plays these videos in full; a
+ * puppeteer-driven Chrome stops at 41s and ViewTube at 63.6s, so automation is detected
+ * regardless of whether a token is sent. Neither a jsdom-minted token nor one lifted from
+ * an automated browser lifts it, and a completely fresh session resumes to the same second,
+ * so this is not something the player can retry around. See SABR_PLAN.md.
  */
-export const SABR_ATTESTATION_REQUIRED = 'YouTube requires attestation for this video';
+export const SABR_ATTESTATION_REQUIRED = 'YouTube stopped serving this video';
 
 /**
  * The id a representation carries in the manifest.

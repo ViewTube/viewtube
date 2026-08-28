@@ -117,6 +117,16 @@ request uses `vtClientFetch` (`client/app/utils/vtClientFetch.ts`).
   channels), `notifications` (web-push).
 - `admin/` — server settings (registration toggle, require-login-everywhere) read at boot in
   `main.ts` and pushed into `NUXT_PUBLIC_*` env vars, plus blocked videos and log access.
+- `common/potoken/` — **a ViewTube instance runs YouTube's BotGuard attestation.** A worker
+  thread (`potoken.worker.ts`) mints PO tokens; `PoTokenService` owns its lifecycle, rotates
+  at 80% of the ~12h token TTL, and hands out a session token (bound to `visitorData`, used
+  to build the Innertube client) and per-video content tokens (used on the player request
+  and in the SABR block). The **worker thread is a correctness requirement, not an
+  optimisation**: BotGuard needs `globalThis.window`/`document`, and in production Nuxt's
+  SSR bundle shares this process, so setting them on the main thread breaks server
+  rendering. Everything is best-effort — a failed mint returns `null` and playback degrades
+  to tokenless rather than throwing. `VIEWTUBE_POTOKEN_ENABLED=false` turns it off;
+  `VIEWTUBE_PO_TOKEN` + `VIEWTUBE_VISITOR_DATA` pin a pair manually and skip generation.
 - Config: Joi-validated env (`env.validation.ts`); JWT and VAPID keys are auto-generated and
   persisted to the data directory by `ConfigurationService` if not provided. Redis holds both the
   cache-manager cache and the Bull queues (db 1). `VIEWTUBE_CLUSTERED` enables `AppClusterService`.

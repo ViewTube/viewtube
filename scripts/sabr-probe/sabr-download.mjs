@@ -30,6 +30,9 @@ const useToken = args.includes('--token');
 // A token captured from a real browser (see `capture-body --video <id>`), to test whether
 // what YouTube's own player sends satisfies the gate that our minted tokens do not.
 const literalToken = argValue('--po-token');
+// The visitorData that `--po-token` was minted for. A PO token is bound to the visitor, so
+// replaying one without its own visitorData tests a mismatched session and proves nothing.
+const literalVisitorData = argValue('--visitor-data');
 const bodyTokenMode = argValue('--token') ?? 'session';
 
 let sessionToken;
@@ -49,9 +52,17 @@ const client = await Innertube.create({
   cache: new UniversalCache(false),
   enable_session_cache: false,
   lang: 'en',
+  ...(literalVisitorData ? { visitor_data: literalVisitorData } : {}),
   ...(useToken ? { visitor_data: visitorData, po_token: sessionToken } : {})
 });
-const info = await client.getBasicInfo(videoId, useToken ? { po_token: contentToken } : undefined);
+// The player request is part of the session: it is what receives the SABR URL and
+// ustreamerConfig, and `STREAM_PROTECTION_STATUS` appears to be decided at that point. So a
+// literal token is offered here too, not only in the SABR body.
+const playerToken = literalToken ?? (useToken ? contentToken : undefined);
+const info = await client.getBasicInfo(
+  videoId,
+  playerToken ? { po_token: playerToken } : undefined
+);
 
 const ustreamerConfig =
   info.player_config?.media_common_config?.media_ustreamer_request_config
@@ -151,10 +162,7 @@ try {
     }
   }, 500);
 
-  const [videoBytes, audioBytes] = await Promise.all([
-    drain(videoStream),
-    drain(audioStream)
-  ]);
+  const [videoBytes, audioBytes] = await Promise.all([drain(videoStream), drain(audioStream)]);
   clearInterval(poll);
   console.log(
     `RESULT ${videoId} video=${(seenMs.video / 1000).toFixed(1)}s/${videoBytes}B audio=${(seenMs.audio / 1000).toFixed(1)}s/${audioBytes}B duration=${info.basic_info.duration}s`

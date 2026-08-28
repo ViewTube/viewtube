@@ -33,7 +33,7 @@ const describeShakaError = (detail?: ShakaErrorDetail): string => {
   const httpStatus = findHttpStatus(detail);
 
   if (carriesMarker(detail, SABR_ATTESTATION_REQUIRED)) {
-    return 'YouTube stopped sending this video after about a minute because it wants the player to pass a bot check ViewTube cannot pass yet. Other videos are unaffected.';
+    return 'YouTube stopped sending this video partway through because it wants proof the player is a real browser, which this server cannot currently provide. Other videos are unaffected.';
   }
   if (isNoMedia(detail)) {
     return 'YouTube stopped sending this video’s stream. Reloading the page usually helps.';
@@ -141,14 +141,26 @@ export const createSabrAdapter = async (
     clientInfo: initialSource.sabr.clientInfo
   });
 
-  // No onMintPoToken. Not because the token is never checked — on videos YouTube marks
-  // with `STREAM_PROTECTION_STATUS` 2 it is, and playback stops about a minute in — but
-  // because no token we can produce satisfies that check: `scripts/sabr-probe`'s
-  // `sabr-download --token` gets the same wall with a BotGuard token, bound to the session
-  // or to the video, as with none. Adding BotGuard to the client would cost a lot and
-  // change nothing until that is solved.
+  /**
+   * The token the server minted for this video, if it managed to.
+   *
+   * Read through a mutable holder rather than captured, because `applySource` swaps the
+   * session on reload and googlevideo calls this callback per request — a captured value
+   * would keep sending the token from the session that has just been replaced.
+   *
+   * BotGuard stays out of the client entirely: the server already attests, and a second
+   * attestation from the browser would be a second identity for the same playback.
+   */
+  let poToken = initialSource.sabr.poToken;
+
+  // Registered only when the server actually produced a token. googlevideo sends
+  // `base64ToU8(await cb())` unconditionally once a callback exists, so returning an empty
+  // string would put a zero-length token in the request body — a malformed token rather
+  // than no token, which is the worse of the two to send.
+  if (poToken) sabr.onMintPoToken(async () => poToken ?? '');
 
   const applySource = (source: SabrPlayerSource) => {
+    poToken = source.sabr.poToken;
     sabr.setStreamingURL(source.sabr.streamingUrl);
     sabr.setUstreamerConfig(source.sabr.ustreamerConfig);
     sabr.setServerAbrFormats(source.sabr.formats as SabrFormat[]);
