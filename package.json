@@ -37,7 +37,7 @@
     "not Edge 18"
   ],
   "devDependencies": {
-    "@types/node": "26.2.0",
+    "@types/node": "26.4.1",
     "@typescript-eslint/parser": "8.68.0",
     "eslint": "10.9.1",
     "eslint-plugin-cypress": "7.0.1",
