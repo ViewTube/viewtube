@@ -18,7 +18,7 @@
     "@nuxt/eslint": "1.17.0",
     "@pinia/nuxt": "1.0.2",
     "@types/humanize-duration": "3.27.4",
-    "@types/node": "26.2.0",
+    "@types/node": "26.4.1",
     "@types/papaparse": "5.5.2",
     "@types/qrcode": "1.5.6",
     "@types/ua-parser-js": "0.7.39",
