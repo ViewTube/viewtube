@@ -51,7 +51,7 @@
     "https-proxy-agent": "9.1.0",
     "humanize-duration": "3.34.1",
     "ioredis": "5.11.1",
-    "joi": "18.2.5",
+    "joi": "18.2.6",
     "mini-svg-data-uri": "1.4.4",
     "mongoose": "9.9.3",
     "nest-winston": "1.10.2",
